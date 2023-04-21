@@ -2,21 +2,21 @@ package com.example.databinding_application
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 
 
 class MainViewModel() : ViewModel() {
 
-    private var viewModelJob: Job? = null
+    internal var viewModelJob: Job? = null
     private var initialTime = 0L
     private val DELAY = 1000L
     val stopwatch = MutableLiveData<String>("00:00:00")
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun start() {
         if(viewModelJob == null) {
-            viewModelJob = coroutineScope.launch {
+            viewModelJob = viewModelScope.launch {
                 while (true) {
                     delay(DELAY)
                     val startTime = initialTime + DELAY/1000
